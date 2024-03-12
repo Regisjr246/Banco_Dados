@@ -93,12 +93,12 @@ references clientes(id)
 
 
 insert into  clientes (id,nome) values
-('1','2024-03-1'),
-('2','2024-03-2'),
-('3','2024-03-3'),
-('4','2024-03-4'),
-('5','2024-03-5'),
-('6','2024-03-6 ');
+('1','Cliente-1'),
+('2','Cliente-2'),
+('3','Cliente-3'),
+('4','Cliente-4'),
+('5','Cliente-5'),
+('6','Cliente-6 ');
 
 
 
@@ -132,3 +132,18 @@ from clientes c
 inner join pedidos p on c.id = p.clientes_id;
 /*Neste exemplo, estamos  selecionado todas as colunas das tabelas(cliente e pedido)
  * onde há uma corespondencia entre o id na tabela clientes e o cliente_id na tabela pedidos.*/
+
+
+
+
+/*LEFT JOIN: Retorna todas os registros da tabela da esquerda (primeira tabela
+ *mencionada) e os registros correspondentes da tabela da direita(segunda tabela mencionada*/
+
+
+select c.id,  c.nome,  p.id  ,p.data_pedido,  p.clientes_id
+from clientes c 
+left join pedidos p on c.id = p.clientes_id;
+/* Aqui, estamos selecionando todos os registros da tabela clientes e os resgistros
+ * correspondentes da tabela pedidos, se houver, com base na correspondecia de 
+id e cliente_id
+ */
