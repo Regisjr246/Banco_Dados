@@ -1,11 +1,6 @@
 drop database if exists tipos_joins;
-
-
 create database tipos_joins;
-
-
 use tipos_joins;
-
 
 create table cores(
 id int auto_increment,
@@ -13,12 +8,10 @@ cor varchar(50),
  primary key(id)
 );
 
-
 create table frutas (
 id int auto_increment primary key, 
 fruta varchar(50)
 );
-
 
 create table cores_frutas(
 frutas_id int not null,
@@ -132,8 +125,6 @@ from clientes c
 inner join pedidos p on c.id = p.clientes_id;
 /*Neste exemplo, estamos  selecionado todas as colunas das tabelas(cliente e pedido)
  * onde há uma corespondencia entre o id na tabela clientes e o cliente_id na tabela pedidos.*/
-
-
 
 
 /*LEFT JOIN: Retorna todas os registros da tabela da esquerda (primeira tabela
