@@ -147,3 +147,13 @@ left join pedidos p on c.id = p.clientes_id;
  * correspondentes da tabela pedidos, se houver, com base na correspondecia de 
 id e cliente_id
  */
+
+/*RITH JOIN: Retorna todos os registrosda tabela da direira(segundo tabela 
+ mencionada) e os registros correspondente da tabela da esquerda (primeira tabela)
+ mecionada*/
+select c.id,  c.nome,  p.id  ,p.data_pedido,  p.clientes_id
+from clientes c 
+right join pedidos p on c.id= p.clientes_id;
+/*este comando retorna todos os registro da tabela pedidos e os registros
+ * correspondentes da tabela clientes, se houver, com base na correspondecia
+ * de id e cliente_id*/
