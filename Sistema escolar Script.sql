@@ -1,4 +1,4 @@
-/*drop database sistemaEscolar;*/
+drop database if exists sistemaEscolar;
 create database sistemaEscolar;
 use sistemaEscolar;
 
@@ -21,8 +21,8 @@ create table professores (
 
 create table disciplinas(
 id int not null auto_increment,
-nome varchar(255) not null,
-professores_id int not null,
+nomeDisciplina varchar(255) not null,
+professores_id int ,
 primary key( id),
 constraint fk_disciplinas_professores
 foreign key (professores_id)
@@ -31,7 +31,7 @@ references professores (id)
 
 create table notas(
 id int not null auto_increment,
-notas_alunos decimal(15,2),
+notas_alunos decimal(15,2), 
 disciplinas_id int not null,
 alunos_id int not null,
 primary key(id),
@@ -87,140 +87,138 @@ INSERT INTO professores  (nome,especialidade,grau_academico) VALUES ('Professor4
 INSERT INTO professores  (nome,especialidade,grau_academico) VALUES ('Professor5', 'Informática', 'PHD');
 select id, nome, especialidade ,grau_academico  from professores p;
 
--- Inserção de dados na tabela de disciplinas
-INSERT INTO disciplinas  (nome,professores_id) VALUES ('HISTÓRIA', '1' );
-INSERT INTO disciplinas  (nome,professores_id) VALUES ('PORTUGUES', '2');
-INSERT INTO disciplinas  (nome,professores_id) VALUES ('Matemática', '3')
-INSERT INTO disciplinas  (nome,professores_id) VALUES ('Ingles', '4' );
-INSERT INTO disciplinas  (nome,professores_id) VALUES ('Informatica', '5' );;
-select id,nome,professores_id, nome  from disciplinas ;
+-- Inserção de dados na tabela de disciplinas*/
+INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('HISTÓRIA', '1' );
+INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('PORTUGUES', '2');
+INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('Matemática', '3');
+INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('Ingles', '4' );
+INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('Informatica', '5' );
+INSERT INTO disciplinas  (nomeDisciplina) VALUES ('geografia');
+select id,nomeDisciplina,professores_id, nomeDisciplina  from disciplinas ;
 
 /*-- Inserção de dados na tabela de notas*/
-*ALUNOS NAS DISCIPLINAS 1*/
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','1' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','2' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','3' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','4' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','5' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','6' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','7' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','8' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','9' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','10' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','11' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','12' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','13' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','14' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','15' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','16' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','17' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','18' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','19' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','20' );
-
-*ALUNOS NAS DISCIPLINAS 2*/
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '2','1' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '2','2' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '2','3' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','4' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','5' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('4', '1','4' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('3', '2','5' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','6' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','7' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','8' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','9' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','10' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','11' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','12' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','13' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','14' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','15' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','16' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','17' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','18' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','19' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','20' );
-
-
-*ALUNOS NAS DISCIPLINAS 3*/
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '3','1' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '3','2' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '3','3' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','4' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','5' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','6' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','7' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','8' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','9' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','10' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '3','8' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('0', '3','9' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('1', '3','10' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','11' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','12' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','13' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','14' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','15' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','16' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','17' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','18' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','19' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','20' );
-
-
-*ALUNOS NAS DISCIPLINAS 4*/
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '4','1' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '4','2' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '4','3' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','4' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','5' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','6' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','7' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','8' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','9' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','10' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','11' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','12' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','13' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('9', '4','12' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '4','13' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','14' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','15' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','16' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','17' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','18' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','19' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','20' );
-
-/*ALUNOS NAS DISCIPLINAS 5*/
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '5','1' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '5','2' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '5','3' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','4' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','5' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','6' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','7' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','8' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','9' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','10' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','11' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','12' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','13' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','14' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','15' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','16' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','17' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('3', '5','16' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('4', '5','17' );
 INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','18' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','19' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','20' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '5','19' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '1','20' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '5','20' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '4','20' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '3','20' );
+INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '2','20' );
+select notas_alunos ,disciplinas_id ,alunos_id from     notas n  ;
 
-select id,notas_alunos,disciplinas_id,alunos_id from notas u;
+delete from notas  where id = 1;
+
+/*-- Inserção de dados na tabela alunosDisciplinas*/
+insert into alunoDisciplinas (disciplinas_id, alunos_id)
+select d.id as disciplinas_id, a.id as alunos_id  from disciplinas d cross join  alunos a;
+select disciplinas_id, alunos_id from alunoDisciplinas a;
 
 
 
 
-/*-- Inserção de dados na tabela de ALUNOS_DISCIPLINAS*/
-select id,nome,professores_id  from disciplinas ;
-select id, nome, numero_identificacao ,endereco,dt_nascimento  from alunos a ;
+/*1-Selecionar alunos matriculados em uma disciplina específica.*/
+select ad.disciplinas_id, d.nomeDisciplina , ad.alunos_id from alunoDisciplinas ad inner join disciplinas d on d.id = ad.disciplinas_id 
+where d.nomeDisciplina  = 'História';
 
-/*  CADASTRO DE ALUNO NA DISCIPLINA: 1*/
-INSERT INTO alunodisciplinas  (disciplinas_id, alunos_id) VALUES (' 1','1');
 
-select disciplinas_id ,alunos_id  from alunodisciplinas a  ;
+/*2-Selecionar professor de uma disciplina específica*/
+select d.id ,d.nomeDisciplina ,d.professores_id, p.nome from disciplinas d inner join professores p on d.professores_id =p.id 
+where d.nomeDisciplina ='Matemática';  
 
-/*-- Seleção de Aluno pela Data de Nascimento*/
-select id,nome,dt_nascimento from alunos  ;
+
+
+/* 3-Selecionar todos os alunos e mostrar em quais disciplinas os alunos está
+cadastrado.*/
+select disciplinas_id, alunos_id from alunoDisciplinas a ;
+
+
+
+/*4-Selecionar notas dos alunos em uma disciplina específica, exibir a nota, nome do 
+aluno e a disciplina.*/
+select  n.notas_alunos ,n.disciplinas_id, d.nomeDisciplina  ,n.alunos_id, a.nome 
+from notas n   
+inner join disciplinas d on d.id = n.disciplinas_id 
+inner join alunos a on n.alunos_id = a.id where d.nomeDisciplina = 'Matemática';
+
+
+/*5-Selecionar alunos que têm notas superiores ou igual a um determinado valor, exibir 
+os campos nome do aluno, disciplina e a nota (por exemplo quando a nota for 
+superior ou igual a 7).*/
+select  n.notas_alunos , d.nomeDisciplina  , a.nome 
+from notas n   
+inner join disciplinas d on d.id = n.disciplinas_id 
+inner join alunos a on n.alunos_id = a.id where n.notas_alunos >= 7 ;
+
+
+/*6-Selecionar alunos que têm notas superiores ou igual a um determinado valor em uma 
+disciplina específica (por exemplo, com código de disciplina 'MAT101' e nota superior 
+a 7).*/
+select  n.notas_alunos , d.nomeDisciplina  , a.nome 
+from notas n   
+inner join disciplinas d on d.id = n.disciplinas_id 
+inner join alunos a on n.alunos_id = a.id where n.notas_alunos >= 7 and d.nomeDisciplina ='Matemática';
+
+/*7-Selecionar alunos que têm notas superiores a um determinado valor em uma 
+disciplina específica (por exemplo, com código de disciplina 'MAT101' e nota superior 
+a 7)*/
+select  n.notas_alunos , d.nomeDisciplina  , a.nome 
+from notas n   
+inner join disciplinas d on d.id = n.disciplinas_id 
+inner join alunos a on n.alunos_id = a.id where n.notas_alunos > 1 and d.nomeDisciplina ='Matemática';
+
+/*8-Selecionar alunos que têm notas inferior a um determinado valor, exibir os campos 
+nome do aluno, disciplina e a nota (por exemplo quando a nota for inferior a 7)*/
+select  a.nome , d.nomeDisciplina  ,n.notas_alunos  
+from notas n   
+inner join disciplinas d on d.id = n.disciplinas_id 
+inner join alunos a on n.alunos_id = a.id where n.notas_alunos < 1;
+
+
+/*9-Selecionar alunos com base em sua data de nascimento (por exemplo, alunos 
+nascidos após 2000).*/
+select  nome ,dt_nascimento  
+from alunos a   
+ where  a.dt_nascimento > '2000';
+
+/*10-Selecionar disciplinas que não têm notas registradas (Para garantir que todos os 
+alunos tenham suas notas registradas, é necessário identificar as disciplinas em que 
+as notas ainda não foram registradas. Escreva uma consulta SQL que retorne o nome 
+das disciplinas sem notas registradas)*/
+select d.id , d.nomeDisciplina, n.notas_alunos 
+from disciplinas d left join notas n on d.id = n.disciplinas_id
+where n.notas_alunos is null;
+
+
+/*11-Selecionar alunos com base na especialidade do professor que ministra a disciplina 
+em que estão matriculados (O departamento de orientação acadêmica deseja 
+identificar os alunos matriculados em disciplinas ministradas por professores 
+especializados em uma determinada área, como "Geografia". Escreva uma consulta 
+SQL que retorne o nome dos alunos matriculados nessas disciplinas).*/
+
+
+
+
+
+
+
+
+
+
+
