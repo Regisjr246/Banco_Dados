@@ -144,33 +144,116 @@ INSERT INTO item_pedido (pedido_id, pizza_id, quantidade, valor) VALUES (8, 4, 2
 */
 -- listar todas as Pizzas
 select * from pizza ;
--- selcionar todas as pizzas com valor diferente de R$17,00
+
+-- Selcionar todas as pizzas com valor diferente de R$17,00
 select * from pizza where valor !=17;
 select * from pizza where valor <> 17;
 
 
--- selecionar pizzas que não tem valor cadastrado(valor nulo==null)
+-- Selecionar pizzas que não tem valor cadastrado(valor nulo==null)
 select*from pizza where valor is null;
 select*from pizza where valor <=> null;
 select*from pizza where  isnull(valor);
 
 
--- selcionar toas as pizzas com valores entre R$15,00 e R$20,00,
+-- Selcionar toas as pizzas com valores entre R$15,00 e R$20,00,
 select*from pizza where valor>15 and valor<20;
 
--- selcioanr todas as pizzas com valores menores que  ou maiores que R$17,00
+-- Selcioanr todas as pizzas com valores menores que  ou maiores que R$17,00
 select *from pizza where valor <	17 or valor > 20;
 
--- selecioanr toas as pizzza com valores nao maiores ou maiores que R$17,00
+-- Selecioanr toas as pizzza com valores nao maiores ou maiores que R$17,00
 
 select *from pizza where not(valor<17 or valor>17);
 
 
--- selecionar as pizzas com valores na faixa de R$17,00 a R$20,00
+-- Selecionar as pizzas com valores na faixa de R$17,00 a R$20,00
 select *from pizza where valor>=17 and valor <=20;
 select *from pizza where valor between 17 and 20;
 
--- selecionar todas as pizzas com valores fora da faixa de 	R$17,00 a R$20,00
+-- Selecionar todas as pizzas com valores fora da faixa de 	R$17,00 a R$20,00
 select *from pizza where valor <17 or valor>20;
 select * from pizza where not(valor>=17 and valor<=20);
 select *from pizza where valor not between 17 and 20;
+
+-- Selecionar todas as pizzas com valores iguais a R$15,00 e R$20,00
+select * from pizza p where valor= 15 or valor = 20;
+select * from pizza p where  valor in(15,20);
+
+-- Selecionar todas aspizzas com valores diferente de R$15,00 R$20,00
+
+select * from pizza p  where  valor!= 15 and valor!= 20;
+select  *from pizza p where valor  not in (15,20);
+
+
+-- Selecionar todas as pizzas com valores nulos
+select * from pizza p where  valor <=>null;
+select * from pizza p where valor is null;
+
+
+-- Selecionar todas as pizzas com valores diferente de nulos
+select *from pizza where valor is not null;
+
+-- Selecionar todas as pizzas que comecem com a letra: E
+select * from pizza p  where nome like'E%';
+
+-- Selecionar todas as pizzas que temrinam com a letra: A
+select * from pizza p where nome like'%a';
+
+
+-- Selecionar todas as pizzas que contenha no nome a letra:RO 
+select *from pizza p where nome like '%ro%';
+
+
+-- Oedenar as colunas
+ select * from pizza p order by valor desc , nome;
+
+/*
+|---------------------------------|
+|       desc     |      asc       |
+|---------------------------------|                
+|  decrescente   |      crescente |
+|---------------------------------|
+*/
+
+
+
+-- selecionar as 3 pizza mais caras
+select  * from pizza p order by valor desc limit 3;
+
+/*
+|-- ------------------------------------------|
+|Funções de agregação/                        |
+| * AVG(coluna) Média dos valores da coluna;  |
+| * count(coluna) Conta numero de linha;      |
+| * Max(coluna) Maior valor da coluna;        |
+| * Min(coluna) Menor valor da coluna;        |
+| * Sun(coluna) Soma dos valores;             |  
+|                                             |
+|-- ------------------------------------------|
+*/
+-- Qual a média de preço das pizzas
+select avg(valor) as preco_medio from pizza p;
+select  avg(valor) as preco_medio from pizza p where nome like '%esa';
+
+-- Quantos sabores pizzas temos cadastrados?
+select count(*) as qtd from pizza; -- Considera valores nulos;
+select count(nome) as qtd from pizza; -- Não considera valores nulos;
+
+-- Qual a pizza mais cara?
+select  max(valor) as maior_valor from pizza p ;
+
+-- Qual a pizza mais barata 
+select  min(valor) as menor_valor from pizza p;
+
+-- Somar todos os valores 
+select sum(valor) as soma from pizza p ;
+select  sum(valor) as total from item_pedido ip where pedido_id = 7; -- Aqui ele pega só os valores de cada produto
+select sum(quantidade * valor) from item_pedido ip where pedido_id = 7 -- Aqui ele pega o valor de cada produtos e multiplica pela quantidade de produtos do carrimho
+
+
+select c.cliente_id, c.nome, count(p.pedido_id) as qtd_pedido 
+from pedido p 
+inner join cliente c on p.cliente_id = c.cliente_id 
+group by c.cliente_id, c.nome ;
+
