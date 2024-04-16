@@ -1,13 +1,15 @@
-drop database if exists sistemaEscolar;
-create database sistemaEscolar;
-use sistemaEscolar;
+drop database if exists escola;
+
+create database escola;
+
+use escola;
 
 create table alunos (
 	id int not null auto_increment,
-	numero_identificacao int(255) not null,
 	nome varchar(255) not null,
-	endereco varchar(255) not null ,
+	endereco varchar(255) not null,
 	dt_nascimento date not null,
+	RM int not null unique,
 	primary key(id)
 );
 
@@ -15,202 +17,466 @@ create table professores (
 	id int not null auto_increment,
 	nome varchar(255) not null,
 	especialidade varchar(255) not null,
-	grau_academico varchar(255) not null,	
+	grau_academico varchar(255) not null,
 	primary key(id)
 );
 
-create table disciplinas(
-id int not null auto_increment,
-nomeDisciplina varchar(255) not null,
-professores_id int ,
-primary key( id),
-constraint fk_disciplinas_professores
-foreign key (professores_id)
-references professores (id)
+create table disciplinas (
+	id int not null auto_increment,
+	nome varchar(255) not null,
+	professores_id int ,
+	primary key (id),
+	constraint fk_professores_disciplinas
+		foreign key (professores_id)
+		references professores (id)
 );
 
-create table notas(
-id int not null auto_increment,
-notas_alunos decimal(15,2), 
-disciplinas_id int not null,
-alunos_id int not null,
-primary key(id),
-constraint fk_notas_disciplinas
-foreign key (disciplinas_id)
-references disciplinas(id),
-constraint fk_notas_alunos
-foreign key (alunos_id)
-references alunos(id)
+create table notas (
+	id int not null auto_increment,
+	nota decimal(15,2) not null,
+	disciplinas_id int not null,
+	alunos_id int not null,
+	primary key (id),
+	constraint fk_disciplinas_notas
+		foreign key (disciplinas_id)
+		references disciplinas (id),
+	constraint fk_alunos_id_notas
+		foreign key (alunos_id)
+		references alunos (id)
 );
-
-
-create table alunoDisciplinas(
-disciplinas_id int not null,
-alunos_id int not null,
-primary key(alunos_id,disciplinas_id),
-constraint fk_alunoDisciplinas_disciplinas
-foreign key (disciplinas_id)
-references disciplinas(id),
-constraint fk_alunoDisciplinas_alunos
-foreign key (alunos_id)
-references alunos(id)
+	
+create table alunos_disciplinas (
+	alunos_id int not null,
+	disciplinas_id int,
+	primary key (alunos_id, disciplinas_id),
+	constraint fk_alunos_disciplinas
+		foreign key (alunos_id)
+		references alunos (id),
+	constraint fk_disciplinas_alunos
+		foreign key (disciplinas_id)
+		references disciplinas (id)
 );
+	
 
-/*-- Inserção de dados na tabela de alunos*/
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno1', '1', 'Brasil-rua:sp-331', '2024-03-27');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno2', '2', 'Brasil-rua:sp-3334', '2024-03-26');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno3', '3', 'Brasil-rua:sp-3335', '2024-03-25');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno4', '4', 'Brasil-rua:sp-3336', '2024-03-23');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno5', '5', 'Brasil-rua:sp-3337', '2024-03-22');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno6', '6', 'Brasil-rua:sp-3338', '2024-03-21');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno7', '7', 'Brasil-rua:sp-33311', '2024-03-20');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno8', '8', 'Brasil-rua:sp-33310', '2024-03-19');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno9', '9', 'Brasil-rua:sp-33312', '2024-03-18');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno10', '10', 'Brasil-rua:sp-3313', '2024-03-17');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno11', '11', 'Brasil-rua:sp-3313', '2024-03-16');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno12', '12', 'Brasil-rua:sp-3133', '2024-03-15');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno13', '13', 'Brasil-rua:sp-32233', '2024-03-14');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno14', '14', 'Brasil-rua:sp-33113', '2024-03-13');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno15', '15', 'Brasil-rua:sp-3353', '2024-03-12');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno16', '16', 'Brasil-rua:sp-33553', '2024-03-11');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno17', '17', 'Brasil-rua:sp-33553', '2024-03-10');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno18', '18', 'Brasil-rua:sp-33553', '2024-03-24');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno19', '19', 'Brasil-rua:sp-33553', '2024-03-14');
-INSERT INTO alunos  (nome,numero_identificacao,endereco,dt_nascimento) VALUES ('Aluno20', '20', 'Brasil-rua:sp-33553', '2024-03-20');
-select id, nome, numero_identificacao ,endereco,dt_nascimento  from alunos a ;
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 1', 'rua 1', '2000-03-04', 1);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 2', 'rua 2', '2000-03-04', 2);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 3', 'rua 3', '2000-03-04', 3);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 4', 'rua 4', '2000-03-04', 4);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 5', 'rua 5', '2000-03-04', 5);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 6', 'rua 6', '2000-03-04', 6);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 7', 'rua 7', '2000-03-04', 7);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 8', 'rua 8', '2000-03-04', 8);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 9', 'rua 9', '2000-03-04', 9);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 10', 'rua 10', '2000-03-04', 10);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 11', 'rua 11', '2000-03-04', 11);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 12', 'rua 12', '2000-03-04', 12);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 13', 'rua 13', '2000-03-04', 13);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 14', 'rua 14', '2000-03-04', 14);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 15', 'rua 15', '2000-03-04', 15);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 16', 'rua 16', '2000-03-04', 16);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 17', 'rua 17', '2000-03-04', 17);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 18', 'rua 18', '2000-03-04', 18);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 19', 'rua 19', '2000-03-04', 19);
+INSERT INTO alunos (nome, endereco, dt_nascimento, RM) 
+	VALUES ('aluno 20', 'rua 20', '2000-03-05', 20);
 
-/*-- Inserção de dados na tabela de professores*/
-INSERT INTO professores  (nome,especialidade,grau_academico) VALUES ('Professor1', 'HISTÓRIA', 'encino superior completo');
-INSERT INTO professores  (nome,especialidade,grau_academico) VALUES ('Professor2', 'PORTUGUES', 'Mestrado');
-INSERT INTO professores  (nome,especialidade,grau_academico) VALUES ('Professor3', 'Matemática', 'Doutorado');
-INSERT INTO professores  (nome,especialidade,grau_academico) VALUES ('Professor4', 'Ingles', 'Doutorado');
-INSERT INTO professores  (nome,especialidade,grau_academico) VALUES ('Professor5', 'Informática', 'PHD');
-select id, nome, especialidade ,grau_academico  from professores p;
+select id, nome, endereco, dt_nascimento, RM from alunos a;
 
--- Inserção de dados na tabela de disciplinas*/
-INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('HISTÓRIA', '1' );
-INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('PORTUGUES', '2');
-INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('Matemática', '3');
-INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('Ingles', '4' );
-INSERT INTO disciplinas  (nomeDisciplina,professores_id) VALUES ('Informatica', '5' );
-INSERT INTO disciplinas  (nomeDisciplina) VALUES ('geografia');
-select id,nomeDisciplina,professores_id, nomeDisciplina  from disciplinas ;
+update alunos set nome = 'novo', endereco = 'rua nova'
+	where id  = 1;
+	
+/*delete from alunos where id = 2;*/
+	
 
-/*-- Inserção de dados na tabela de notas*/
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','1' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','2' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '1','3' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('4', '1','4' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('3', '2','5' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','6' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '2','7' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('7', '3','8' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('0', '3','9' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('1', '3','10' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '3','11' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('9', '4','12' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '4','13' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','14' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '4','15' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('3', '5','16' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('4', '5','17' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('5', '5','18' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '5','19' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '1','20' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '5','20' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '4','20' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '3','20' );
-INSERT INTO notas  (notas_alunos,disciplinas_id,alunos_id) VALUES ('6', '2','20' );
-select notas_alunos ,disciplinas_id ,alunos_id from     notas n  ;
+INSERT INTO professores (nome, especialidade, grau_academico) 
+	VALUES ('professor 1', 'matematica', 'ensino superior completo');
+INSERT INTO professores (nome, especialidade, grau_academico) 
+	VALUES ('professor 2', 'portugues', 'ensino superior completo');
+INSERT INTO professores (nome, especialidade, grau_academico) 
+	VALUES ('professor 3', 'historia', 'ensino superior completo');
+INSERT INTO professores (nome, especialidade, grau_academico) 
+	VALUES ('professor 4', 'ciencias', 'ensino superior completo');
+INSERT INTO professores (nome, especialidade, grau_academico) 
+	VALUES ('professor 5', 'humanas', 'ensino superior completo');
 
-delete from notas  where id = 1;
+select id, nome, especialidade, grau_academico from professores p;
 
-/*-- Inserção de dados na tabela alunosDisciplinas*/
-insert into alunoDisciplinas (disciplinas_id, alunos_id)
-select d.id as disciplinas_id, a.id as alunos_id  from disciplinas d cross join  alunos a;
-select disciplinas_id, alunos_id from alunoDisciplinas a;
+update professores set nome = 'novo professor', grau_academico = 'doutorado'
+	where id  = 1;
+	
+/*delete from professores where id = 2;*/
 
 
+INSERT INTO disciplinas (nome, professores_id) 
+	VALUES ('matematica', 1);
+INSERT INTO disciplinas (nome, professores_id) 
+	VALUES ('portugues', 2);
+INSERT INTO disciplinas (nome, professores_id) 
+	VALUES ('historia', 3);
+INSERT INTO disciplinas (nome, professores_id) 
+	VALUES ('ciencias', 4);
+INSERT INTO disciplinas (nome, professores_id) 
+	VALUES ('geografia', 5);
+INSERT INTO disciplinas (nome) 
+	VALUES ('senai');
+INSERT INTO disciplinas (nome, professores_id) 
+	VALUES ('quimica', 4);
+INSERT INTO disciplinas (nome, professores_id) 
+	VALUES ('biologia', 4);
+	
+select id, nome, professores_id from  disciplinas d;
+
+update disciplinas  set nome = 'fisica', professores_id = 4
+	where id  = 4;
+	
+/*delete from disciplinas where id = 3;*/
 
 
-/*1-Selecionar alunos matriculados em uma disciplina específica.*/
-select ad.disciplinas_id, d.nomeDisciplina , ad.alunos_id from alunoDisciplinas ad inner join disciplinas d on d.id = ad.disciplinas_id 
-where d.nomeDisciplina  = 'História';
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 3);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (8.22, 5, 4);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 5);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (9.22, 5, 6);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (10.00, 5, 7);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (7.00, 5, 8);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 9);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 10);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 11);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 12);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 13);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 14);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 15);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 16);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 17);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 18);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 19);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 5, 20);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 4, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 4, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 3, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 2, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 1, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (8.22, 3, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 3, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (8.22, 7, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 7, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (2.22, 8, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (4.22, 8, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (4.00, 5, 1);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (8.22, 3, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (0.22, 3, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (1.22, 3, 2);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (1.22, 7, 3);
+INSERT INTO notas (nota, disciplinas_id, alunos_id) 
+	VALUES (6.22, 7, 4);
+
+select id, nota, disciplinas_id, alunos_id from notas n;
+
+update notas set nota = 4.22
+	where id  = 1;
+	
+delete from notas where id = 1;
+delete from notas where id = 22;
 
 
-/*2-Selecionar professor de uma disciplina específica*/
-select d.id ,d.nomeDisciplina ,d.professores_id, p.nome from disciplinas d inner join professores p on d.professores_id =p.id 
-where d.nomeDisciplina ='Matemática';  
+INSERT INTO alunos_disciplinas (disciplinas_id, alunos_id)
+	select d.id as disciplinas_id, a.id as alunos_id from disciplinas d cross join alunos a;
+	
+select disciplinas_id, alunos_id from alunos_disciplinas ad;
+
+
+/*EX:1 alunos selecionados em uma disciplina expecifica*/
+select a.id, a.nome, a.RM, ad.alunos_id , d.nome 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	where d.nome = 'matematica';
+
+
+/*EX:2 professores selecionados em uma disciplina expecifica*/
+select p.id, p.nome, d.nome 
+	from professores p  
+	inner join disciplinas d on d.id = p.id
+	where d.nome = 'matematica';
+
+	
+/*EX:3 alunos em cada disciplina*/
+select a.id, a.nome, a.RM, ad.alunos_id , d.nome 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id;
+	
+	
+/*EX:4 nota dos alunos em uma disciplina expecifica*/
+select a.id, a.nome, a.RM, ad.alunos_id , d.nome, n.nota 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	inner join notas n on n.id = a.id 
+	where d.nome = 'matematica';
+
+
+/*EX:5 notas igual ou superior a 7*/
+select a.id, a.nome, d.nome, n.nota 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	inner join notas n on n.id = a.id 
+	where n.nota >= 7;
+
+
+/*EX:6 notas igual ou superior a 7 em uma determinada disciplina*/
+select a.id, a.nome, d.nome, n.nota 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	inner join notas n on n.id = a.id 
+	where d.nome = 'matematica' and n.nota >= 7;
+
+
+/*EX:7 notas superior a 7 em uma determinada disciplina*/
+select a.id, a.nome, d.nome, n.nota 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	inner join notas n on n.id = a.id 
+	where d.nome = 'matematica' and n.nota > 7;
+	
+
+/*EX:8 notas inferior a 7*/
+select a.id, a.nome, d.nome, n.nota 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	inner join notas n on n.id = a.id 
+	where n.nota < 7;
+	
+
+/*EX:9 selecionar alunos por data de nascimento*/
+select id, nome, endereco, dt_nascimento, RM from alunos a
+	where dt_nascimento = '2000-03-04';
+	
+
+/*EX:10 Selecionar disciplinas que não têm notas registradas*/
+select d.id, d.nome, n.nota  
+	from  disciplinas d left join notas n on d.id = n.id 
+	where n.nota is null ;
+
+
+/*EX:11 Selecionar alunos com base na especialidade do professor que ministra a disciplina 
+em que estão matriculados*/
+select a.id, a.nome, d.nome, p.nome, p.especialidade  
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	inner join professores p on p.id = d.professores_id
+	where p.especialidade = 'matematica';
+
+
+/*EX:12 Selecionar alunos matriculados em disciplinas ministradas por professores com um 
+determinado grau acadêmico*/
+select a.id, a.nome, d.nome, p.nome, p.grau_academico 
+	from alunos a 
+	inner join alunos_disciplinas ad on a.id = ad.alunos_id  
+	inner join disciplinas d on d.id = ad.disciplinas_id
+	inner join professores p on p.id = d.professores_id
+	where p.grau_academico = 'doutorado';
+
+
+/*EX:13 Selecionar disciplinas que não têm professores registrados*/
+select d.id, d.nome, p.nome   
+	from  disciplinas d left join professores p on d.id = p.id 
+	where d.professores_id is null;
+
+
+/*EX:14 total de alunos matriculados na disciplina de Matemática*/
+select count(ad.disciplinas_id) 
+	from alunos_disciplinas ad  
+	inner join disciplinas d on ad.disciplinas_id = d.id 
+	where d.nome = 'matematica';
+
+
+/*EX:15 soma total das notas dos alunos na disciplina de Física*/
+select sum(nota) as soma from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	where d.nome = 'fisica';
+
+
+/*EX:16 maior nota alcançada por um aluno na disciplina de História.*/
+select max(nota) as maior_valor from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	where d.nome = 'historia';
+
+
+/*EX:17  menor nota obtida por um aluno na disciplina de Química*/
+select min(nota) as menor_valor from notas n
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	where d.nome = 'quimica';
+
+
+/*EX:18  média das notas dos alunos na disciplina de Biologia.*/
+select avg(nota) as preco_medio from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	where d.nome = 'biologia';
+
+
+/*EX:19 Conte quantos alunos estão matriculados em cada disciplina*/
+select  d.nome, count(alunos_id) as matriculados_disciplina
+from notas n 
+inner join disciplinas d on n.disciplinas_id = d.id 
+group by n.disciplinas_id 
+having count(alunos_id);
+
+
+/*EX:20 Calcule a soma total das notas de todos os alunos em todas as disciplinas*/
+select sum(nota) as total from notas n;
+
+
+/*EX:21 Determine a maior nota entre todos os alunos em todas as disciplinas.*/
+select max(nota) as maior_valor from notas n;
+
+
+/*EX:22 Descubra a menor nota entre todos os alunos em todas as disciplinas*/
+select min(nota) as menor_valor from notas n;
+
+
+/*EX:23  Calcule a média das notas de todos os alunos em todas as disciplinas.*/
+select avg(nota) as media from notas n;
+
+
+/*EX:24  Liste todas as disciplinas e a média das notas de cada disciplina.*/
+select d.nome, avg(n.nota) as media_disciplina from notas n
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	group by n.disciplinas_id  
+	having avg(n.nota);
+
+
+/*EX:25  Liste a disciplinas, alunos e a média, realize a ordenação de disciplina e aluno por 
+ordem crescente.*/
+select d.nome, a.nome, avg(n.nota) as media_disciplina from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	inner join alunos a on n.alunos_id = a.id 
+	group by n.disciplinas_id, n.alunos_id  
+	having avg(n.nota) 
+	order by d.nome, a.nome asc;
+
+
+/*EX:26  Liste a disciplinas, alunos e a média, realize a ordenação de disciplina por ordem 
+crescente e a média em ordem decrescente*/
+select d.nome, a.nome, avg(n.nota) as media_disciplina from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	inner join alunos a on n.alunos_id = a.id 
+	group by n.disciplinas_id, n.alunos_id  
+	having avg(n.nota) 
+	order by d.nome asc, n.nota desc;
+
+
+/*EX:27  5 menores notas da disciplina de História, exibir o nome do aluno e a nota*/
+select a.nome, n.nota from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	inner join alunos a on n.alunos_id = a.id
+	where d.nome = 'historia'
+	order by n.nota asc limit 5;
+
+
+/*EX:28 */
+select d.nome, a.nome, avg(n.nota) as media_disciplina from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	inner join alunos a on n.alunos_id = a.id
+	where d.nome = 'quimica'
+	group by n.disciplinas_id, n.alunos_id  
+	having avg(n.nota) 
+	order by n.nota desc limit 3;
+
+
+/*EX:29 Liste as 10 maiores médias, exibir nome da disciplina, nome do aluno e a média*/
+select d.nome, a.nome, avg(n.nota) as media_disciplina from notas n 
+	inner join disciplinas d on n.disciplinas_id = d.id 
+	inner join alunos a on n.alunos_id = a.id
+	group by n.disciplinas_id, n.alunos_id  
+	having avg(n.nota) 
+	order by n.nota desc limit 10;
+
+
+/*EX:30 Conte quantos alunos ativos tem cadastrado na escola. Para saber se o aluno esta 
+ativo ele deve estar matriculado em alguma disciplina caso o aluno não esteja 
+matricula em uma disciplina ele é considerado inativo*/
+
+select count(alunos_id) as quatidade_Alunos
+from alunos_disciplinas ad  
+where disciplinas_id is not null
+having count(alunos_id);
 
 
 
-/* 3-Selecionar todos os alunos e mostrar em quais disciplinas os alunos está
-cadastrado.*/
-select disciplinas_id, alunos_id from alunoDisciplinas a ;
 
 
 
-/*4-Selecionar notas dos alunos em uma disciplina específica, exibir a nota, nome do 
-aluno e a disciplina.*/
-select  n.notas_alunos ,n.disciplinas_id, d.nomeDisciplina  ,n.alunos_id, a.nome 
-from notas n   
-inner join disciplinas d on d.id = n.disciplinas_id 
-inner join alunos a on n.alunos_id = a.id where d.nomeDisciplina = 'Matemática';
 
 
-/*5-Selecionar alunos que têm notas superiores ou igual a um determinado valor, exibir 
-os campos nome do aluno, disciplina e a nota (por exemplo quando a nota for 
-superior ou igual a 7).*/
-select  n.notas_alunos , d.nomeDisciplina  , a.nome 
-from notas n   
-inner join disciplinas d on d.id = n.disciplinas_id 
-inner join alunos a on n.alunos_id = a.id where n.notas_alunos >= 7 ;
 
 
-/*6-Selecionar alunos que têm notas superiores ou igual a um determinado valor em uma 
-disciplina específica (por exemplo, com código de disciplina 'MAT101' e nota superior 
-a 7).*/
-select  n.notas_alunos , d.nomeDisciplina  , a.nome 
-from notas n   
-inner join disciplinas d on d.id = n.disciplinas_id 
-inner join alunos a on n.alunos_id = a.id where n.notas_alunos >= 7 and d.nomeDisciplina ='Matemática';
-
-/*7-Selecionar alunos que têm notas superiores a um determinado valor em uma 
-disciplina específica (por exemplo, com código de disciplina 'MAT101' e nota superior 
-a 7)*/
-select  n.notas_alunos , d.nomeDisciplina  , a.nome 
-from notas n   
-inner join disciplinas d on d.id = n.disciplinas_id 
-inner join alunos a on n.alunos_id = a.id where n.notas_alunos > 1 and d.nomeDisciplina ='Matemática';
-
-/*8-Selecionar alunos que têm notas inferior a um determinado valor, exibir os campos 
-nome do aluno, disciplina e a nota (por exemplo quando a nota for inferior a 7)*/
-select  a.nome , d.nomeDisciplina  ,n.notas_alunos  
-from notas n   
-inner join disciplinas d on d.id = n.disciplinas_id 
-inner join alunos a on n.alunos_id = a.id where n.notas_alunos < 1;
 
 
-/*9-Selecionar alunos com base em sua data de nascimento (por exemplo, alunos 
-nascidos após 2000).*/
-select  nome ,dt_nascimento  
-from alunos a   
- where  a.dt_nascimento > '2000';
-
-/*10-Selecionar disciplinas que não têm notas registradas (Para garantir que todos os 
-alunos tenham suas notas registradas, é necessário identificar as disciplinas em que 
-as notas ainda não foram registradas. Escreva uma consulta SQL que retorne o nome 
-das disciplinas sem notas registradas)*/
-select d.id , d.nomeDisciplina, n.notas_alunos 
-from disciplinas d left join notas n on d.id = n.disciplinas_id
-where n.notas_alunos is null;
 
 
-/*11-Selecionar alunos com base na especialidade do professor que ministra a disciplina 
-em que estão matriculados (O departamento de orientação acadêmica deseja 
-identificar os alunos matriculados em disciplinas ministradas por professores 
-especializados em uma determinada área, como "Geografia". Escreva uma consulta 
-SQL que retorne o nome dos alunos matriculados nessas disciplinas).*/
+
 
 
 
